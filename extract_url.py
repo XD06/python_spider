@@ -33,4 +33,4 @@ def urls_extract():
     # except requests.exceptions.RequestException as e:
     #     print(f"请求失败：{str(e)}")
     url_sets = {"https://news.qq.com/rain/a/20250319A08GCL00":"受权发布|中共中央办公厅　国务院办公厅关于进一步强化食品安全全链条监管的意见"}
-    return url_sets,content_json['title']
+    return url_sets,'title'
