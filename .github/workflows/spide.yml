@@ -32,7 +32,7 @@ jobs:
         run: python main.py
         # 7.上传文件
       - name: Upload MD file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v3 
         with:
          name: generated-md
          path: ${{ github.workspace }}/output.md  # 确保路径正确
