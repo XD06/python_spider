@@ -1,57 +1,28 @@
-name: Execute Main.py on Update
+name: Run Python Script on Push
 
-on:
-  # 触发条件 1：代码推送（包含 main.py 更新）
-  push:
-    branches: [ "main" ]
-
-  # 触发条件 2：手动触发（可选）
-  workflow_dispatch:  # 保留手动触发按钮（网页 10）
-    inputs:
-      reason:
-        description: '执行原因（可选）'
-        required: false
+on: [push]  # 代码推送时触发
 
 jobs:
-  run-script:
+  execute-script:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
-    # 步骤 1：获取最新代码（网页 1）
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 1  # 优化克隆深度
+      # 1. 拉取代码
+      - name: Checkout repository
+        uses: actions/checkout@v4  # 最新稳定版
 
-    # 步骤 2：设置 Python 环境（网页 3）
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.13'
-        cache: 'pip'  # 启用依赖缓存
+      # 2. 配置Python环境
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # 指定Python版本
 
-    # 步骤 3：安装依赖（若存在 requirements.txt）
-    - name: Install dependencies
-      if: files('requirements.txt')  # 仅在存在依赖文件时执行
-      run: |
-        pip install -r requirements.txt
+      # 3. 安装依赖（如果存在requirements.txt）
+      - name: Install dependencies
+        run: |
+          if [ -f "requirements.txt" ]; then
+            pip install -r requirements.txt
+          fi
 
-    # 步骤 4：执行根目录的 main.py（网页 17/54）
-    - name: Run Python Script
-      run: python main.py  # 直接运行根目录的脚本
-      env:
-        TZ: Asia/Shanghai  # 设置时区（可选）
-
-    # 步骤 5：结果通知（可选，网页 30）
-    - name: Notification on Failure
-      if: ${{ failure() }}
-      uses: actions/github-script@v7
-      with:
-        script: |
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: '⚠️ 脚本执行失败，请检查日志：${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
-          })
+      # 4. 执行根目录的main.py
+      - name: Run Python Script
+        run: python main.py  # 直接运行根目录脚本
