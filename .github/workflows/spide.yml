@@ -32,3 +32,9 @@ jobs:
       # 6. 执行脚本
       - name: Run Python script
         run: python main.py
+
+      - name: Upload MD file
+        uses: actions/upload-artifact@v3
+        with:
+          name: generated-md
+          path: ${{ github.workspace }}/output.md
