@@ -21,17 +21,12 @@ jobs:
         with:
           python-version: '3.10'
 
-      # 4. 安装Playwright及其浏览器
-      - name: Install Playwright and browsers
-        run: |
-          pip install playwright
-          playwright install
-
       # 5. 安装项目依赖
       - name: Install project dependencies
         run: |
           if [ -f "requirements.txt" ]; then
             pip install -r requirements.txt
+            playwright install
           fi
 
       # 6. 执行脚本
