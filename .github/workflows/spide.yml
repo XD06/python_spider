@@ -25,7 +25,7 @@ jobs:
       - name: Install Playwright and browsers
         run: |
           pip install playwright
-          playwright install chromium  # 只安装需要的浏览器（推荐Chromium）
+          playwright install
 
       # 5. 安装项目依赖
       - name: Install project dependencies
