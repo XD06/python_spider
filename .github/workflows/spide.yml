@@ -13,8 +13,6 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1
-
       # 3. 配置Python环境
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -32,6 +30,7 @@ jobs:
       # 6. 执行脚本
       - name: Run Python script
         run: python main.py
+        # 7.上传文件
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
