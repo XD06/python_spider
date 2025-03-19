@@ -21,7 +21,7 @@ from readability.debug import text_content
 COUNT= 0
 root_path = os.path.abspath(os.path.dirname(__file__))  # 获取脚本所在目录的绝对路径
 output_path = os.path.join(root_path, "output.md")      # 拼接根目录下的目标路径
-MAX_WORKERS = 7  # 并发线程数（建议3-5）
+MAX_WORKERS = 15  # 并发线程数（建议3-5）
 REQUEST_INTERVAL = (1, 3)  # 请求间隔秒数（随机范围）
 MAX_RETRIES = 1          # 最大重试次数
 MIN_QUALITY_SCORE = 10  # 最低质量分数
