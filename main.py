@@ -729,6 +729,7 @@ if __name__ == "__main__":
         print(f"一次循环耗时：{time.time() - while_time:.2f}秒，{(time.time()-while_time) / 60:.2f}分钟")
     # 保留最终状态输出
     with open(output_path, "w", encoding="utf-8") as f:
+                        print("保存文件中.....")
                         for line in total_content:
                             f.write(line)
     print(f"\n最终结果：成功获取 {success_count}/{len(target_urls)} 条有效内容")
