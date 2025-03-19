@@ -1,45 +1,33 @@
-name: Run Python Script
-
+name: Full Workflow with Mirrors
 on: [push]
 
 jobs:
-  run-script:
+  build:
     runs-on: ubuntu-latest
+    env:
+      PIP_INDEX_URL: https://pypi.tuna.tsinghua.edu.cn/simple
+    
     steps:
-      # 1. 拉取代码
-      - uses: actions/checkout@v4
-
-      # 2. 安装系统级依赖（Chromium需要）
-      - name: Install system libraries
+      # 1. 更换系统源
+      - name: Replace APT sources
         run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libasound2t64 \      
-            libnss3 \                
-            libxcomposite1 \
-            libxdamage1 \
-            libxrandr2 \
-            libgbm1 \
-            libpulse0
-      # 3. 配置Python环境
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      # 4. 安装Playwright及其浏览器
-      - name: Install Playwright and browsers
+          sudo sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+          sudo apt update
+          
+      # 2. 安装系统依赖
+      - name: Install system packages
+        run: sudo apt install -y libasound2t64 python3-pip
+          
+      # 3. 配置Docker镜像
+      - name: Configure Docker
         run: |
-          pip install playwright
-          playwright install chromium  # 只安装需要的浏览器（推荐Chromium）
-
-      # 5. 安装项目依赖
-      - name: Install project dependencies
-        run: |
-          if [ -f "requirements.txt" ]; then
-            pip install -r requirements.txt
-          fi
-
-      # 6. 执行脚本
-      - name: Run Python script
+          echo '{"registry-mirrors": ["https://xxxx.mirror.aliyun.com"]}' | sudo tee /etc/docker/daemon.json
+          sudo systemctl restart docker
+          
+      # 4. 安装Python依赖
+      - name: Install requirements
+        run: pip install -r requirements.txt
+          
+      # 5. 运行主脚本
+      - name: Run main script
         run: python main.py
