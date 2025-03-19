@@ -35,4 +35,4 @@ jobs:
         uses: actions/upload-pages-artifact@v3 
         with:
          name: generated-md
-         path: ./output  # 确保路径正确
+         path: ${{ github.workspace }}/output  # 确保路径正确
