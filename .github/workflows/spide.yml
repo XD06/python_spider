@@ -29,10 +29,10 @@ jobs:
 
       # 6. 执行脚本
       - name: Run Python script
-        run: python main.py
+        run: mkdir output && python main.py
         # 7.上传文件
       - name: Upload MD file
         uses: actions/upload-pages-artifact@v3 
         with:
          name: generated-md
-         path: ${{ github.workspace }}/output.md  # 确保路径正确
+         path: ./output  # 确保路径正确
