@@ -1,28 +1,28 @@
-name: Run Python Script on Push
+name: Run Python Script
 
-on: [push]  # 代码推送时触发
+on: [push]
 
 jobs:
-  execute-script:
+  run-script:
     runs-on: ubuntu-latest
     steps:
-      # 1. 拉取代码
-      - name: Checkout repository
-        uses: actions/checkout@v4  # 最新稳定版
+      - uses: actions/checkout@v4
 
-      # 2. 配置Python环境
-      - name: Set up Python
+      - name: Set up Python 3.10
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'  # 指定Python版本
+          python-version: '3.10'
 
-      # 3. 安装依赖（如果存在requirements.txt）
-      - name: Install dependencies
+      - name: Install core dependencies
+        run: |
+          pip install lxml[html_clean]  # 关键修复步骤
+          pip install lxml_html_clean
+
+      - name: Install project dependencies
         run: |
           if [ -f "requirements.txt" ]; then
             pip install -r requirements.txt
           fi
 
-      # 4. 执行根目录的main.py
-      - name: Run Python Script
-        run: python main.py  # 直接运行根目录脚本
+      - name: Execute main.py
+        run: python main.py
