@@ -31,7 +31,8 @@ jobs:
       - name: Run Python script
         run: python main.py
         # 7.上传文件
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload MD file
+        uses: actions/upload-artifact@v3
         with:
-          path: ./output.md
+         name: generated-md
+         path: ${{ github.workspace }}/output.md  # 确保路径正确
